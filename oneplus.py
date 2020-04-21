@@ -95,146 +95,149 @@ while 1:
 		previous_count = 0
 		flag = 1
 		while 1:
-			#if flag == 1:
-			#	exit()
 			try:
-				error = driver.find_element_by_id('user-visible-error')
-				print(error.text.encode('utf-8'))
-				if 'DISCONNECTED' in error.text.encode('utf-8'):
-					error.click()
+				#if flag == 1:
+				#	exit()
+				try:
+					error = driver.find_element_by_id('user-visible-error')
+					print(error.text.encode('utf-8'))
+					if 'DISCONNECTED' in error.text.encode('utf-8'):
+						error.click()
+				except Exception as e:
+					pass
+				data = driver.find_elements_by_class_name('content') 
+				for d in data[previous_count:len(data)]:
+					flag = 1
+					print(d.text)
+					if '!chk' in d.text or '!CHK' in d.text:
+						card_info = d.text[5:]
+						if '|' in card_info:
+							card_num = card_info.split('|')
+							size = len(card_num)
+							if card_num[size-1][0].isalpha():
+								size = size-1
+							card_number = card_num[0]
+							if len(card_num[1])<3:
+								card_date = (card_num[1])+str(card_num[2])
+								card_cvv = (card_num[3])
+							else:
+								card_date = (card_num[1])
+								card_cvv = (card_num[2])				
+							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
+							driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
+							driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
+							driver_1.switch_to.default_content()
+							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
+							driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
+							driver_1.find_element_by_name('expiration').send_keys(card_date)
+							driver_1.switch_to.default_content()
+							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
+							driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
+							driver_1.find_element_by_name('cvv').send_keys(card_cvv)
+							driver_1.switch_to.default_content()
+							driver_1.find_elements_by_tag_name('button')[2].click()
+							time.sleep(5)
+							driver_1.save_screenshot('initial.png')
+							span = driver_1.find_elements_by_tag_name('span')
+							i = 0
+							for s in span:
+								print(s.text+'  ........... '+str(i))
+								i = i+1
+								#if 'Error' in s.text.encode('utf-8'):
+								#	continue
+						if card_info[16] == ' ':
+							if card_info[19] == ' ':
+								card_num = card_info[:16]
+								card_date = card_info[17:21]
+								card_date = card_date.strip(" ")
+								card_cvv =  card_info[23:25]
+								print(card_num)
+								print(card_date)
+								print(card_cvv)
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
+								driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
+								driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('expiration').send_keys(card_date)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
+								driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('cvv').send_keys(card_cvv)
+								driver_1.switch_to.default_content()
+								driver_1.find_elements_by_tag_name('button')[2].click()
+								time.sleep(5)
+								driver_1.save_screenshot('initial.png')
+								span = driver_1.find_elements_by_tag_name('span')
+								i = 0
+								for s in span:
+									print(s.text+'  ........... '+str(i))
+									i = i+1
+									#if 'Error' in s.text.encode('utf-8'):
+									#	continue
+							if card_info[19] != ' ':
+								card_num = card_info[:16]
+								card_date = card_info[17:21]
+								#card_date = card_date.strip(" ")
+								card_cvv =  card_info[22:25]
+								print(card_num)
+								print(card_date)
+								print(card_cvv)
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
+								driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
+								driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('expiration').send_keys(card_date)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
+								driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('cvv').send_keys(card_cvv)
+								driver_1.switch_to.default_content()
+								driver_1.find_elements_by_tag_name('button')[2].click()
+								time.sleep(5)
+								driver_1.save_screenshot('initial.png')
+								span = driver_1.find_elements_by_tag_name('span')
+								i = 0
+								for s in span:
+									print(s.text+'  ........... '+str(i))
+									i = i+1
+									#if 'Error' in s.text.encode('utf-8'):
+									#	continue
+							if card_info[19] == '/':
+								card_num = card_info[:16]
+								card_date = card_info[17:21]
+								card_date = card_date.strip("/")
+								card_cvv =  card_info[23:25]
+								print(card_num)
+								print(card_date)
+								print(card_cvv)
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
+								driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
+								driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('expiration').send_keys(card_date)
+								driver_1.switch_to.default_content()
+								driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
+								driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
+								driver_1.find_element_by_name('cvv').send_keys(card_cvv)
+								driver_1.switch_to.default_content()
+								driver_1.find_elements_by_tag_name('button')[2].click()
+								time.sleep(5)
+								driver_1.save_screenshot('initial.png')
+								span = driver_1.find_elements_by_tag_name('span')
+								i = 0
+								for s in span:
+									print(s.text+'  ........... '+str(i))
+									i = i+1
+									#if 'Error' in s.text.encode('utf-8'):
+									#	continue
+				previous_count = len(data)
 			except Exception as e:
-				pass
-			data = driver.find_elements_by_class_name('content') 
-			for d in data[previous_count:len(data)]:
-				flag = 1
-				print(d.text)
-				if '!chk' in d.text or '!CHK' in d.text:
-					card_info = d.text[5:]
-					if '|' in card_info:
-						card_num = card_info.split('|')
-						size = len(card_num)
-						if card_num[size-1][0].isalpha():
-							size = size-1
-						card_number = card_num[0]
-						if len(card_num[1])<3:
-							card_date = (card_num[1])+str(card_num[2])
-							card_cvv = (card_num[3])
-						else:
-							card_date = (card_num[1])
-							card_cvv = (card_num[2])				
-						driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
-						driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
-						driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
-						driver_1.switch_to.default_content()
-						driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
-						driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
-						driver_1.find_element_by_name('expiration').send_keys(card_date)
-						driver_1.switch_to.default_content()
-						driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
-						driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
-						driver_1.find_element_by_name('cvv').send_keys(card_cvv)
-						driver_1.switch_to.default_content()
-						driver_1.find_elements_by_tag_name('button')[2].click()
-						time.sleep(5)
-						driver_1.save_screenshot('initial.png')
-						span = driver_1.find_elements_by_tag_name('span')
-						i = 0
-						for s in span:
-							print(s.text+'  ........... '+str(i))
-							i = i+1
-							#if 'Error' in s.text.encode('utf-8'):
-							#	continue
-					if card_info[16] == ' ':
-						if card_info[19] == ' ':
-							card_num = card_info[:16]
-							card_date = card_info[17:21]
-							card_date = card_date.strip(" ")
-							card_cvv =  card_info[23:25]
-							print(card_num)
-							print(card_date)
-							print(card_cvv)
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
-							driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
-							driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('expiration').send_keys(card_date)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
-							driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('cvv').send_keys(card_cvv)
-							driver_1.switch_to.default_content()
-							driver_1.find_elements_by_tag_name('button')[2].click()
-							time.sleep(5)
-							driver_1.save_screenshot('initial.png')
-							span = driver_1.find_elements_by_tag_name('span')
-							i = 0
-							for s in span:
-								print(s.text+'  ........... '+str(i))
-								i = i+1
-								#if 'Error' in s.text.encode('utf-8'):
-								#	continue
-						if card_info[19] != ' ':
-							card_num = card_info[:16]
-							card_date = card_info[17:21]
-							#card_date = card_date.strip(" ")
-							card_cvv =  card_info[22:25]
-							print(card_num)
-							print(card_date)
-							print(card_cvv)
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
-							driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
-							driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('expiration').send_keys(card_date)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
-							driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('cvv').send_keys(card_cvv)
-							driver_1.switch_to.default_content()
-							driver_1.find_elements_by_tag_name('button')[2].click()
-							time.sleep(5)
-							driver_1.save_screenshot('initial.png')
-							span = driver_1.find_elements_by_tag_name('span')
-							i = 0
-							for s in span:
-								print(s.text+'  ........... '+str(i))
-								i = i+1
-								#if 'Error' in s.text.encode('utf-8'):
-								#	continue
-						if card_info[19] == '/':
-							card_num = card_info[:16]
-							card_date = card_info[17:21]
-							card_date = card_date.strip("/")
-							card_cvv =  card_info[23:25]
-							print(card_num)
-							print(card_date)
-							print(card_cvv)
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-number'))
-							driver_1.find_element_by_name('credit-card-number').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('credit-card-number').send_keys(card_num)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-expirationDate'))
-							driver_1.find_element_by_name('expiration').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('expiration').send_keys(card_date)
-							driver_1.switch_to.default_content()
-							driver_1.switch_to.frame(driver_1.find_element_by_id('braintree-hosted-field-cvv'))
-							driver_1.find_element_by_name('cvv').send_keys(Keys.CONTROL,'a')
-							driver_1.find_element_by_name('cvv').send_keys(card_cvv)
-							driver_1.switch_to.default_content()
-							driver_1.find_elements_by_tag_name('button')[2].click()
-							time.sleep(5)
-							driver_1.save_screenshot('initial.png')
-							span = driver_1.find_elements_by_tag_name('span')
-							i = 0
-							for s in span:
-								print(s.text+'  ........... '+str(i))
-								i = i+1
-								#if 'Error' in s.text.encode('utf-8'):
-								#	continue
-			previous_count = len(data)
+				print(e)
 	except Exception as e:
 		print(e)
