@@ -12,7 +12,6 @@ import time
 
 from bs4 import BeautifulSoup as soup
 from selenium.webdriver.common.keys import Keys
-import pymouse
 from selenium.webdriver.common.action_chains import ActionChains
 
 while 1:
